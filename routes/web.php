@@ -14,14 +14,14 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [pythonController::class,'index'])->name('HomePage');
-Route::post('/convert/{nama_script}',[pythonController::class,'convertPost']);
-Route::get('/convert/{nama_script}',[pythonController::class,'convert'])->name('convert');
-Route::get('/test',[pythonController::class,'test'])->name('test');
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-require __DIR__.'/auth.php';
+route::group(['middleware' => ['auth']], function () {
+    Route::get('/', [pythonController::class,'index'])->name('HomePage');
+    Route::post('/convert/{nama_script}',[pythonController::class,'convertPost']);
+    Route::get('/convert/{nama_script}',[pythonController::class,'convert'])->name('convert');
+    Route::get('/test',[pythonController::class,'test'])->name('test');
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+    
+});
+    require __DIR__.'/auth.php';

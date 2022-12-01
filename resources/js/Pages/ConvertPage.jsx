@@ -3,6 +3,8 @@ import { Link, Head, useForm, Inertia } from "@inertiajs/inertia-react";
 import Navbar from "@/Components/Navbar";
 import Sidebar from "@/Components/Sidebar";
 import Footer from "@/Components/Footer";
+import { FaArrowLeft } from "react-icons/fa";
+
 export default function HomePage(props) {
   const { data, setData, errors, post, progress } = useForm({
     file: null,
@@ -12,7 +14,6 @@ export default function HomePage(props) {
     post(`/convert/${props.nama_script}`);
     setData("file", null);
   };
-  console.log(props.message);
   return (
     <div className=" min-h-screen bg-slate-50 ">
       <Head title="Convert" />
@@ -20,12 +21,22 @@ export default function HomePage(props) {
       <div className="drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
+          <Link
+            className="btn btn-success lg:w-1/12 hover:bg-lime-400 ml-10 mt-10"
+            href="/"
+          >
+            <FaArrowLeft className="text-slate-50" />
+          </Link>
           <div
             className="m-4 flex flex-col items-center 
-              justify-center"
+              justify-center mt-8"
           >
+            <div className="flex lg:text-2xl bold text-slate-900">
+              Page Convert | <p> {props.nama_script}</p>
+            </div>
+            <hr className="bg-black w-9 my-3 h-1" />
             {props.message && (
-              <div className="alert shadow-lg my-3 w-1/4">
+              <div className="alert shadow-lg my-3 lg:w-1/4">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -123,10 +134,7 @@ export default function HomePage(props) {
               >
                 Home
               </Link>
-              <a
-                href={`http://127.0.0.1:8000/excel/${props.file_new}.xls`}
-                target="_blank"
-              >
+              <a href={`/excel/${props.file_new}.xls`} target="_blank">
                 <button className="btn btn-primary my-4">Download</button>
               </a>
             </div>

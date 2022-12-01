@@ -5,19 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use App\Models\converter;
+use App\Http\Resources\ConverterCollection;
 class pythonController extends Controller
 {
     public function index() {
-        return Inertia::render('HomePage')->with('message','tst 123 pesan ini');
+        $convertColl= new ConverterCollection(converter::orderBy('title','ASC')->paginate(6));
+        $converter=converter::orderBy('title', 'ASC')->get();
+        return Inertia::render('HomePage',compact('converter','convertColl'))->with('message','tst 123 pesan ini');
+        // return $converter;
     }
     public function convertPost(request $request,$nama_script)
     {
         $request->validate([
-            'file' => [ 'max:1000','required'],
+            'file' => [ 'max:5000','required'],
         ], [
             'file.required'=>'File harus terisi',
             // 'file.mimes' => 'file convert harus: excel',
-            'file.max'=>'file tidak boleh lebih dari 1mb'
+            'file.max'=>'file tidak boleh lebih dari 5mb'
         ]);
         $file=$request->file;
         $original_filename=$request->file->getClientOriginalName();
